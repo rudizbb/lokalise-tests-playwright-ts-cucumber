@@ -2,7 +2,7 @@ Feature: Simple Maths
 
     In order to do Maths
     As a developer
-    I want to be able to do some basic calculations
+    I want to increment variables
 
     Scenario: Easy Maths
         Given a variable set to 1
