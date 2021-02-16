@@ -11,4 +11,6 @@ class CustomWorld {
       this.variable += number;
     }
   }
+
+  module.exports = CustomWorld;
   
