@@ -1,4 +1,4 @@
-const { Given, When, Then, Before } = require('@cucumber/cucumber');
+const { Given, When, Then } = require('@cucumber/cucumber');
 const assert = require('assert').strict;
 
 Given('a variable set to {int}', function (number) {
