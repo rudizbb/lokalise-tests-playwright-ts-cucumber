@@ -16,6 +16,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "bdd-test": "cucumber-js",
+    "bdd-test-with-playwright": "cucumber-js features/**/*.feature --require test.setup.js --require stepDefinitions/**/*.js",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -39,6 +40,7 @@
   "devDependencies": {
     "@cucumber/cucumber": "^7.0.0",
     "install": "^0.13.0",
-    "npm": "^7.5.4"
+    "npm": "^7.5.4",
+    "playwright": "^1.8.1"
   }
 }
