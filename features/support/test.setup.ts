@@ -1,14 +1,21 @@
 import { Before, BeforeAll, AfterAll, After, setWorldConstructor } from "@cucumber/cucumber";
-import { devices, chromium } from "playwright";
+import { devices, chromium, ChromiumBrowser } from "playwright";
 import { OurWorld } from "./types";
 import CustomWorld from '../../src/lib/CustomWorld';
+
+declare global {
+    namespace NodeJS {
+        interface Global {
+            browser: ChromiumBrowser;
+        }
+    }
+  }
 
 setWorldConstructor(CustomWorld);
 
 BeforeAll(async function () {
     // Browsersare expensive in Playwright so only create 1
-    // eslint-disable-next-line to ignore the next line
-    (global as any).browser = await chromium.launch({
+    global.browser = await chromium.launch({
         // Not headless so we can watch tests run
         headless: false,
         // Slow so we can see things happening
@@ -18,15 +25,13 @@ BeforeAll(async function () {
 
 AfterAll(async function () {
     // Close the browser after all scenarios have run
-    // eslint-disable-next-line to ignore the next line
-    await (global as any).browser.close();
+    await global.browser.close();
 });
 
 // Create a new test context and page per scenario
 Before(async function (this: OurWorld) {
     const pixel2 = devices['Pixel 2'];
-    // eslint-disable-next-line to ignore the next line
-    this.context = await (global as any).browser.newContext({
+    this.context = await global.browser.newContext({
         viewport: pixel2.viewport,
         userAgent: pixel2.userAgent,
     });
