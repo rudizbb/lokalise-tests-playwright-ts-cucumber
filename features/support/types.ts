@@ -1,7 +1,7 @@
 import { World as CucumberWorld } from "@cucumber/cucumber";
-import { Browser, BrowserContext, FirefoxBrowser, Page } from "playwright";
+import { BrowserContext, Page } from "playwright-core";
+
 export interface OurWorld extends CucumberWorld {
   context: BrowserContext;
   page: Page;
-  browser: FirefoxBrowser;
 }

@@ -1,6 +1,7 @@
 import { Before, BeforeAll, AfterAll, After } from "@cucumber/cucumber";
-import { devices, chromium, ChromiumBrowser, firefox } from "playwright";
+import { devices, chromium, ChromiumBrowser, firefox } from "playwright-core";
 import { OurWorld } from "./types";
+import { deleteAllProjects } from "./cleanUp";
 
 // Set default step timeout
 const { setDefaultTimeout } = require('@cucumber/cucumber');
@@ -31,22 +32,17 @@ AfterAll(async function () {
 
 // Create a new test context and page per scenario
 Before(async function (this: OurWorld) {
-    // const pixel2 = devices['Pixel 2'];
-    // this.context = await global.browser.newContext({
-    //     viewport: pixel2.viewport,
-    //     userAgent: pixel2.userAgent,
     this.context = await global.browser.newContext();
     this.page = await this.context.newPage();
     this.page.setDefaultNavigationTimeout(15000);
-
-
 });
 
 // Clean up after each scenario
 After(async function (this: OurWorld) {
+    // Clean up by removing all projects
+    await deleteAllProjects();
+
     // Save storage state and store as an env variable
-    const storage = await this.context.storageState();
-    process.env.STORAGE = JSON.stringify(storage);
     await this.page.close();
     await this.context.close();
 });

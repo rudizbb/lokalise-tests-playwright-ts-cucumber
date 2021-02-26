@@ -1,11 +1,11 @@
-import { Given, When, Then } from "@cucumber/cucumber";
+import { When } from "@cucumber/cucumber";
 import { OurWorld } from "../support/types";
 
 const expect = require("expect");
 
-Given('user opens {string}', async function(this: OurWorld, url: string) {
+When('user opens {string} page', async function(this: OurWorld, page: string) {
     // Use the page instance from the world instance to navigate
-    await this.page.goto(`https://${url}`, { waitUntil: 'load' });
+    await this.page.goto(`https://stage.lokalise.com/${page}`, { waitUntil: 'load', timeout: 25000 });
 });
 
 When('user refreshes the page', async function(this: OurWorld) {
@@ -13,48 +13,21 @@ When('user refreshes the page', async function(this: OurWorld) {
 });
 
 When('user clicks on {string}', async function (this: OurWorld, text: string) {
-    // Scroll to the link
-    // await this.page.$eval(`${text}`, (element) => {
-    //     element.scrollIntoView();
-    // })
-
-    // ...click when it's within the viewport
-    //await this.page.waitForTimeout(2000);
-    
-    await this.page.click(`"${text}"`, { delay: 1000 });
-    await this.page.screenshot({ path: 'screenshots/screenshot.png' });
+    await this.page.click(`//*[contains(text(), '${text}')]`, { delay: 1500 });
 });
-
-// When(/^user clicks on '([^']*)'$/, async function (this: OurWorld, text: string) {
-//     // Scroll to the link
-//     // await this.page.$eval(`${text}`, (element) => {
-//     //     element.scrollIntoView();
-//     // })
-
-//     // ...click when it's within the viewport
-//     await this.page.click(`${text}`);
-//     await this.page.screenshot({ path: 'screenshots/screenshot.png' });
-// });
 
 When('user fills required fields to create a new project {string}', async function (this: OurWorld, projectName: string) {
     await this.page.fill("input[id='project-name']", projectName);
 });
 
-Then('user should see his {string} project', async function (this: OurWorld, projectName: string) {
-    const projectHeaderText = await this.page.textContent('a[data-name="project-name"]');
-    console.log(projectHeaderText);
-    expect(projectHeaderText).to.equal(projectName);
+When('user should see his {string} project', async function (this: OurWorld, projectName: string) {
+    await this.page.waitForSelector(`//a[contains(text(), '${projectName}')]`, { state: "visible"} );
 });
 
-Then('user should see {int} project', async function (this: OurWorld, projectCount: number) {
-    const projectCounter = await this.page.$$eval("div[data-testid='project-sidebar-navigation']", 
-        (divs, min) => divs.length >= min, projectCount);
+When('user should see {int} project(s)', async function (this: OurWorld, projectCount: number) {
+    await this.page.waitForSelector("div[data-testid='project-sidebar-navigation']",
+        { state: "visible"} );
+    const length = await this.page.$$eval("div[data-testid='project-sidebar-navigation']",
+        (items) => items.length);
+    expect(length === projectCount).toBeTruthy();
 });
-
-Then('user should be in project page', async function (this: OurWorld, pageName: string) {
-    const heading1Text = (await this.page.textContent('h1'));
-});
-
-// textContent includes whitespace, so use this method to trim
-// See https://stackoverflow.com/a/42921059
-const trimExcessWhiteSpace = (s: string) => s.replace(/[\n\r]+|[\s]{2,}/g, " ").trim();

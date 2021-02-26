@@ -1,32 +1,19 @@
 {
-  "name": "e2e-with-playwright-and-cucumber-using-gherkin-format",
+  "name": "lokalise-tests-playwright-ts-cucumber",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "expect": "^26.6.2",
+    "node-fetch": "^2.6.1",
     "typescript": "^4.1.5"
   },
   "scripts": {
     "test": "cucumber-js features/**/*.feature --require-module ts-node/register --require features/support/test.setup.ts --require features/stepDefinitions/**/*.ts --publish"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
   "devDependencies": {
     "@cucumber/cucumber": "^7.0.0",
-    "expect-playwright": "^0.3.2",
     "install": "^0.13.0",
     "npm": "^7.5.4",
-    "playwright": "^1.8.1",
-    "playwright-core": "^1.8.1",
-    "expect": "^26.6.2"
+    "playwright-core": "^1.8.1"
   }
 }
