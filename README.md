@@ -1,10 +1,7 @@
-# Lokalise tests
+# Lokalise tests using Playwright + TypeScript + Cucumber 
 Powered by [Playwright](https://playwright.dev/), [TypeScript](https://www.typescriptlang.org/) and [Cucumber](https://cucumber.io/).
+Setting up environment pre-conditions by relying on [Lokalise API V2](https://app.lokalise.com/api2docs/curl/).
 
-## Project overview
-Main idea in test design was to build re-usable and isolated test scenarios as per best practices.\
-This would give us flexibility to build customizable test suites with tags - each scenario shouldn't be affected by the previous one.\
-This was mainly achieved by setting up environment pre-conditions by relying on [Lokalise API V2](https://app.lokalise.com/api2docs/curl/).
 ### Project structure
 ```
 lokalise-tests-playwright-ts-cucumber
